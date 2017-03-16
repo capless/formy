@@ -1,54 +1,57 @@
 from six import with_metaclass
+from valley.declarative import DeclaredVars as DV, \
+    DeclarativeVariablesMetaclass as DVM
 
 from .fields import BaseField
 
-import inspect
 
 BUILTIN_DOC_ATTRS = ('_id', '_doc_type')
 
-class DeclaredVars(object):
 
-    base_class = BaseField
+class DeclaredVars(DV):
+    base_field_class = BaseField
     base_field_type = '_base_fields'
 
-    def get_declared_variables(self,bases, attrs):
-        properties = {}
-        f_update = properties.update
-        attrs_pop = attrs.pop
-        for variable_name, obj in list(attrs.items()):
-            if isinstance(obj, self.base_class):
-                f_update({variable_name: attrs_pop(variable_name)})
 
-        for base in bases:
-            if hasattr(base, self.base_field_type):
-                bft = getattr(base,self.base_field_type)
-                if len(bft) > 0:
-                    f_update(bft)
-        return properties
+class DeclarativeVariablesMetaclass(DVM):
+    declared_vars_class = DeclaredVars
 
 
-class DeclarativeVariablesMetaclass(type):
+class BaseForm(object):
     """
-    Partially ripped off from Django's forms.
-    http://code.djangoproject.com/browser/django/trunk/django/forms/forms.py
+    Base class for all Formy form classes.
     """
-    def __new__(cls, name, bases, attrs):
-        attrs['_base_fields'] = DeclaredVars().get_declared_variables(bases, attrs)
-        new_class = super(DeclarativeVariablesMetaclass,
-                          cls).__new__(cls, name, bases, attrs)
-
-        return new_class
-
-
-class BaseDocument(object):
-    """
-    Base class for all Kev Documents classes.
-    """
-    template_class = None
-
 
     def __init__(self, **kwargs):
-        self._form = self.process_form_kwargs(kwargs)
+        self.uncleaned_data = self.process_form_kwargs(kwargs)
+
+    def __repr__(self):
+        return '<{class_name}: {uni} >'.format(
+            class_name=self.__class__.__name__, uni=self.__unicode__())
+
+    def __unicode__(self):
+        return '({0})'.format(self.__class__.__name__)
+
+    def process_form_kwargs(self, kwargs):
+        doc = {}
+        for key, prop in list(self._base_fields.items()):
+            try:
+                value = prop.get_python_value(kwargs.get(key) or prop.get_default_value())
+            except ValueError:
+                value = kwargs.get(key) or prop.get_default_value()
+
+            doc[key] = value
+        for i in BUILTIN_DOC_ATTRS:
+            if kwargs.get(i):
+                doc[i] = kwargs[i]
+        return doc
 
     def validate(self):
-        pass
+        for k,v in self._base_fields.items():
+            v.validate(self.uncleaned_data.get(k),k)
+
+
+
+
+class Form(with_metaclass(DeclarativeVariablesMetaclass, BaseForm)):
+    pass
