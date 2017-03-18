@@ -1,7 +1,7 @@
 from six import with_metaclass
 from valley.declarative import DeclaredVars as DV, \
     DeclarativeVariablesMetaclass as DVM
-
+from valley.utils import import_util
 from .fields import BaseField
 
 
@@ -21,9 +21,10 @@ class BaseForm(object):
     """
     Base class for all Formy form classes.
     """
+    template = 'formy.templates.base_template'
 
     def __init__(self, **kwargs):
-        self.uncleaned_data = self.process_form_kwargs(kwargs)
+        self.form_data = self.process_form_kwargs(kwargs)
 
     def __repr__(self):
         return '<{class_name}: {uni} >'.format(
@@ -31,6 +32,12 @@ class BaseForm(object):
 
     def __unicode__(self):
         return '({0})'.format(self.__class__.__name__)
+
+    def __iter__(self):
+        for k, field in self._base_fields.items():
+            field.name = k
+            field.value = self.form_data.get(k)
+            yield field
 
     def process_form_kwargs(self, kwargs):
         doc = {}
@@ -46,11 +53,13 @@ class BaseForm(object):
                 doc[i] = kwargs[i]
         return doc
 
+    def render(self,include_submit=True):
+        template = import_util(self.template)
+        return template.render(form=self,include_submit=include_submit)
+
     def validate(self):
         for k,v in self._base_fields.items():
-            v.validate(self.uncleaned_data.get(k),k)
-
-
+            v.validate(self.form_data.get(k),k)
 
 
 class Form(with_metaclass(DeclarativeVariablesMetaclass, BaseForm)):

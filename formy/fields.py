@@ -10,20 +10,29 @@ from valley.mixins import VariableMixin, \
     FloatVariableMixin, BooleanMixin, \
     DateMixin, DateTimeMixin, SlugVariableMixin, EmailVariableMixin
 
+from formy.templates.fields import base_field_template
 
 class BaseField(VariableMixin, object):
+    template = base_field_template
+    css_classes = ''
+    value = None
+    name = None
+    input_type = 'text'
 
     def __init__(
         self,
         default_value=None,
-        required=True,
+        required=False,
         validators=[],
         verbose_name=None,
+        css_classes=None,
         **kwargs
     ):
         self.default_value = default_value
         self.required = required
         self.kwargs = kwargs
+        if css_classes:
+            self.css_classes = css_classes
         self.validators = list()
         self.get_validators()
         self.validators = set(self.validators)
@@ -46,6 +55,23 @@ class BaseField(VariableMixin, object):
     def get_python_value(self, value):
         return value
 
+    def render(self,name=None,value=None,css_classes=None,input_type=None):
+        if not name:
+            name = self.name
+        if not value:
+            value = self.value
+        if not css_classes:
+            css_classes = self.css_classes
+        if not input_type:
+            input_type = self.input_type
+
+        return self.template.render(
+            name=name,
+            value=value,
+            css_classes=css_classes,
+            input_type=input_type,
+        )
+
 
 class CharField(CharVariableMixin, BaseField):
 
@@ -60,10 +86,11 @@ class SlugField(SlugVariableMixin,CharField):
 
 
 class EmailField(EmailVariableMixin,CharField):
-    pass
+    input_type = 'email'
 
 
 class IntegerField(IntegerVariableMixin, BaseField):
+    input_type = 'number'
 
     def get_python_value(self, value):
         if not value:
@@ -72,6 +99,7 @@ class IntegerField(IntegerVariableMixin, BaseField):
 
 
 class FloatField(FloatVariableMixin, BaseField):
+    input_type = 'number'
 
     def get_python_value(self, value):
         if not value:
@@ -80,6 +108,7 @@ class FloatField(FloatVariableMixin, BaseField):
 
 
 class BooleanField(BooleanMixin, BaseField):
+    input_type = 'checkbox'
 
     def get_python_value(self, value):
         if not value:
@@ -92,7 +121,7 @@ class BooleanField(BooleanMixin, BaseField):
 
 
 class DateField(DateMixin, BaseField):
-
+    input_type = 'date'
     def __init__(
             self,
             default_value=None,
@@ -136,7 +165,7 @@ class DateField(DateMixin, BaseField):
 
 
 class DateTimeField(DateTimeMixin, BaseField):
-
+    input_type = 'datetime-local'
     def __init__(
             self,
             default_value=None,
@@ -148,7 +177,7 @@ class DateTimeField(DateTimeMixin, BaseField):
             **kwargs):
 
         super(
-            DateTimeProperty,
+            DateTimeField,
             self).__init__(
             default_value=default_value,
             required=required,
