@@ -3,11 +3,11 @@ from valley.declarative import DeclaredVars as DV, \
     DeclarativeVariablesMetaclass as DVM
 from valley.schema import BaseSchema
 from valley.utils import import_util
-from .fields import BaseFieldMixin
+from .fields import BaseField
 
 
 class DeclaredVars(DV):
-    base_field_class = BaseFieldMixin
+    base_field_class = BaseField
 
 
 class DeclarativeVariablesMetaclass(DVM):
