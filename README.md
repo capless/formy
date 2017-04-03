@@ -3,9 +3,29 @@ Python forms library
 
 [![Build Status](https://travis-ci.org/capless/formy.svg?branch=master)](https://travis-ci.org/capless/formy)
 
+## Python Versions Supported
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5 
+ 
 ## Getting Started
 
 Form definition
+```python
+from formy import *
+
+class PersonForm(Form):
+    first_name = CharField(required=True)
+    last_name = CharField(required=True)
+    email = EmailField()
+    slug = SlugField(required=True,help_text='ex. duke-university')
+    
+```
+#### Template Choices
+
+##### UL Template
+Template based on a generic HTML unordered list (ul) element. This is the **default** template.
 ```python
 from formy import *
 
@@ -17,8 +37,34 @@ class PersonForm(Form):
     slug = SlugField(required=True,help_text='ex. duke-university')
     
 ```
+##### Table Template
+Template based on a generic HTML table element.
+```python
+from formy import *
 
-####Form blank instance
+class PersonForm(Form):
+    _template = 'formy.templates.form.table_template'
+    first_name = CharField(required=True)
+    last_name = CharField(required=True)
+    email = EmailField()
+    slug = SlugField(required=True,help_text='ex. duke-university')
+    
+```
+##### Bootstrap Template
+Template based on the Bootstrap CSS framework. Requires that you have the Bootstrap CSS loaded on your HTML page.
+```python
+from formy import *
+
+class PersonForm(Form):
+    _template = 'formy.templates.form.bootstrap_template'
+    first_name = CharField(required=True)
+    last_name = CharField(required=True)
+    email = EmailField()
+    slug = SlugField(required=True,help_text='ex. duke-university')
+    
+```
+
+#### Form blank instance
 ```python
 >>form = PersonForm()
 >>form.render(include_submit=True)
@@ -34,7 +80,7 @@ u' <ul class="ul form">
 >>form.is_valid
 False
 ```
-####Form instance with kwargs
+#### Form instance with kwargs
 ```python
 >>form_kwargs = {'first_name':'Curious','last_name':'George','email':'curious@george.com','slug':'curious-george'}
 >>form = PersonForm(**form_kwargs)
