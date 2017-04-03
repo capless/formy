@@ -1,5 +1,5 @@
 from six import with_metaclass
-from valley.declarative import DeclaredVars as DV, \
+from valley.declarative import OrderedDeclaredVars as DV, \
     DeclarativeVariablesMetaclass as DVM
 from valley.schema import BaseSchema
 from valley.utils import import_util
@@ -18,7 +18,8 @@ class BaseForm(BaseSchema):
     """
     Base class for all Formy form classes.
     """
-    template = 'formy.templates.base_template'
+    _template = 'formy.templates.ul_template'
+    BUILTIN_DOC_ATTRS = []
 
     def __iter__(self):
         for k, field in self._base_properties.items():
@@ -27,7 +28,7 @@ class BaseForm(BaseSchema):
             yield field
 
     def render(self,include_submit=True):
-        template = import_util(self.template)
+        template = import_util(self._template)
         return template.render(form=self,include_submit=include_submit)
 
 
