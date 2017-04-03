@@ -7,6 +7,6 @@ base_field_template = Template(
     <p>{{error}}</p>
     {% endfor %}
     {% endif %}
-    <input type="{{input_type}}" name="{{name}}" value="{{value}}" class="{{css_classes}}">
+    <input type="{{input_type}}" name="{{name}}" {% if value %}value="{{value}}"{% endif %} {% if css_classes %}class="{{css_classes}}"{% endif %} {% if placeholder %}placeholder={{placeholder}}{% endif %}>
     """
 )
