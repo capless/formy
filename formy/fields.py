@@ -1,7 +1,7 @@
 from valley.mixins import *
 
 
-from formy.templates.fields import base_field_template,select_field_template
+from formy.templates.fields import base_field_template, select_field_template, select_multiple_field_template
 from valley.properties import OrderedBaseProperty as VBaseProperty
 
 
@@ -147,3 +147,7 @@ class DateTimeField(DateTimeMixin,BaseField):
 
 class ChoiceField(BaseField):
     template = select_field_template
+
+
+class MultipleChoiceField(BaseField):
+    template = select_multiple_field_template

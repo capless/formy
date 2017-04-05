@@ -25,3 +25,18 @@ select_field_template = Template(
     </select>
     """
 )
+
+select_multiple_field_template = Template(
+    """
+    {% if errors %}
+    {% for error in errors %}
+    <p>{{error}}</p>
+    {% endfor %}
+    {% endif %}
+    <select name="{{name}}" {% if css_classes %}class="{{css_classes}}"{% endif %} multiple>
+    {% for k,v in choices.items() %}
+        <option value="{{v}}" {% if value == v %}selected{% endif %}>{{k}}</option>
+    {% endfor %}
+    </select>
+    """
+)
