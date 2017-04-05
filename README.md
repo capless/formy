@@ -11,6 +11,10 @@ Python Forms Library with Jinja2 Templates based on Valley
  
 ## Getting Started
 
+### Install
+
+```pip install formy```
+
 Form definition
 ```python
 from formy import *
