@@ -1,7 +1,7 @@
 from valley.mixins import *
 
 
-from formy.templates.fields import base_field_template
+from formy.templates.fields import base_field_template,select_field_template
 from valley.properties import OrderedBaseProperty as VBaseProperty
 
 
@@ -44,10 +44,11 @@ class BaseField(VBaseProperty):
         return self.verbose_name or self.name.replace('_',' ').title()
 
     def render(self,name=None,value=None,css_classes=None,input_type=None,
-               placeholder=None):
+               placeholder=None,choices=None):
         name = name or self.name
         verbose_name = self.verbose_name or name.replace('_',' ').title()
         value = value or self.value
+        choices = choices or self.choices
         input_type = input_type or self.input_type
         placeholder = placeholder or self.placeholder or verbose_name
 
@@ -57,6 +58,7 @@ class BaseField(VBaseProperty):
             css_classes = self.css_classes
         return self.template.render(
             name=name,
+            choices=choices,
             value=value,
             verbose_name=verbose_name,
             placeholder=placeholder,
@@ -79,6 +81,10 @@ class EmailField(EmailVariableMixin,BaseField):
 
 class IntegerField(IntegerVariableMixin,BaseField):
     input_type = 'number'
+
+
+class PasswordField(CharField):
+    input_type = 'password'
 
 
 class FloatField(FloatVariableMixin, BaseField):
@@ -137,3 +143,7 @@ class DateTimeField(DateTimeMixin,BaseField):
             **kwargs)
         self.auto_now = auto_now
         self.auto_now_add = auto_now_add
+
+
+class ChoiceField(BaseField):
+    template = select_field_template

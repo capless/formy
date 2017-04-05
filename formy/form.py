@@ -20,6 +20,7 @@ class BaseForm(BaseSchema):
     """
     _template = 'formy.templates.ul_template'
     BUILTIN_DOC_ATTRS = []
+    _create_error_dict = True
 
     def __iter__(self):
         for k, field in self._base_properties.items():

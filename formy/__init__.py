@@ -1,4 +1,4 @@
 from .form import Form
 from .fields import (CharField, IntegerField, BooleanField,
-                     DateField,FloatField,DateTimeField,BaseField,EmailField,
+                     DateField,ChoiceField,FloatField,DateTimeField,EmailField,
                      SlugField)
