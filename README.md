@@ -1,5 +1,5 @@
 # Formy
-Python Forms Library with Jinja2 Templates based on Valley
+Python Forms Library with Jinja2 Templates based on [Valley](https://github.com/capless/valley)
 
 [![Build Status](https://travis-ci.org/capless/formy.svg?branch=master)](https://travis-ci.org/capless/formy)
 
