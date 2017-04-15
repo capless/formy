@@ -4,7 +4,7 @@ table_template = Template(
     """
     <table class="table form">
         {% for field in form %}
-        <tr><td><label for="id_{{field.name}}">{{field.get_verbose_name()}}</label></td><td>{{field.render()}} {% if field.help_text %}{{field.help_text}}{% endif %}</td></tr>
+        <tr><td><label for="id_{{field.name}}">{{field.get_verbose_name()}}</label></td><td>{{field.render(errors=form._errors)}} {% if field.help_text %}{{field.help_text}}{% endif %}</td></tr>
         {% endfor %}
         {% if include_submit %}
             <tr>
@@ -20,7 +20,7 @@ ul_template = Template(
         {% for field in form %}
            <li> 
                 <label for="id_{{field.name}}">{{field.get_verbose_name()}}</label>
-                {{field.render()}}
+                {{field.render(errors=form._errors)}}
                 {% if field.help_text %}<span>{{field.help_text}}</span>{% endif %}
             </li>
         {% endfor %}
@@ -35,11 +35,13 @@ ul_template = Template(
 
 bootstrap_template = Template(
     """
+    {% with form=form %}
+    
     {% for field in form %}
         {% if field.input_type != 'checkbox' %}
         <div class="form-group">
         <label for="id_{{field.name}}">{{field.get_verbose_name()}}</label>
-        {{field.render(css_classes='form-control')}}
+        {{field.render(css_classes='form-control',errors=form._errors)}}
         {% if field.help_text %}
         <p class="help-block">{{field.help_text}}</p>
         {% endif %}
@@ -47,7 +49,7 @@ bootstrap_template = Template(
         {% else %}
          <div class="checkbox">
             <label>
-              {{field.render}} {{field.get_verbose_name()}}
+              {{field.render(errors=form._errors)}} {{field.get_verbose_name()}}
             </label>
         </div>
         {% endif %}
@@ -55,5 +57,6 @@ bootstrap_template = Template(
     {% if include_submit %}  
       <button type="submit" class="btn btn-default">Submit</button>
     {% endif %}
+    {% endwith %}
     """
 )

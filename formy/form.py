@@ -32,6 +32,12 @@ class BaseForm(BaseSchema):
         template = import_util(self._template)
         return template.render(form=self,include_submit=include_submit)
 
+    def render_static_assets(self):
+        static_assets = []
+        for field in self:
+            static_assets.extend(field.static_assets)
+        return ''.join(static_assets)
+
 
 class Form(with_metaclass(DeclarativeVariablesMetaclass, BaseForm)):
     pass
