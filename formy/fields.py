@@ -3,7 +3,7 @@ from valley.mixins import *
 
 from formy.templates.fields import base_field_template, select_field_template, select_multiple_field_template, \
     textarea_field_template, ckeditor_field_template
-from valley.properties import OrderedBaseProperty as VBaseProperty
+from valley.properties import BaseProperty as VBaseProperty
 
 
 class BaseField(VBaseProperty):
