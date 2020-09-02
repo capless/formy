@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "formy"
+version = "0.1.0"
+description = "Python Forms Library with Jinja2 Templates. Based on Valley"
+authors = ["Brian Jinwright"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Jinja2 = ">=2.9.5"
+six = ">=1.10.0"
+valley = ">=1.1.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
