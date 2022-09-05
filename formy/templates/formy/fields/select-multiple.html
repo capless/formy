@@ -1,0 +1,8 @@
+{% if error %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+    <select name="{{name}}" {% if css_classes %}class="{{css_classes}}"{% endif %} multiple>
+    {% for k,v in choices.items() %}
+        <option value="{{v}}" {% if value == v %}selected{% endif %}>{{k}}</option>
+    {% endfor %}
+    </select>
