@@ -1,4 +1,3 @@
-from six import with_metaclass
 from valley.declarative import DeclaredVars as DV, \
     DeclarativeVariablesMetaclass as DVM
 from valley.schema import BaseSchema
@@ -39,5 +38,5 @@ class BaseForm(BaseSchema):
         return ''.join(static_assets)
 
 
-class Form(with_metaclass(DeclarativeVariablesMetaclass, BaseForm)):
+class Form(BaseForm, metaclass=DeclarativeVariablesMetaclass):
     pass

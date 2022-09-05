@@ -1,7 +1,7 @@
 # Formy
 Python Forms Library with Jinja2 Templates based on [Valley](https://github.com/capless/valley)
 
-[![Build Status](https://travis-ci.org/capless/formy.svg?branch=master)](https://travis-ci.org/capless/formy)
+[![Unittests](https://github.com/capless/formy/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/capless/formy/actions/workflows/main.yml)
 
 ## Python Versions Supported
   - 2.7
