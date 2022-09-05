@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "formy"
+version = "1.2.1"
+description = "Valley is a Python forms library that allows you to use Jinja2 templates to create and manage the HTML of your forms."
+authors = ["Brian Jinwright <bjinwright@qwigo.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+valley = "^1.5.8"
+Jinja2 = "^3.1.2"
+
+[tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
+coverage = "^6.4.4"
+pdoc = "^12.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
