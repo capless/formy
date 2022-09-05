@@ -9,7 +9,7 @@ services:
     expose:
       - "8200"
     ports:
-      - 8010:8888
+      - 8200:8888
     volumes:
       - ./:/code/
     env_file: .env

@@ -1,0 +1,14 @@
+<ul class="ul form">
+        {% for field in form %}
+           <li>
+                <label for="id_{{field.name}}">{{field.get_verbose_name()}}</label>
+                {{field.render(errors=form._errors)}}
+                {% if field.help_text %}<span>{{field.help_text}}</span>{% endif %}
+            </li>
+        {% endfor %}
+        {% if include_submit %}
+            <li>
+                <input type="submit" value="submit">
+            </li>
+        {% endif %}
+    </ul>

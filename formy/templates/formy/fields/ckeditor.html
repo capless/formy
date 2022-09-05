@@ -1,0 +1,9 @@
+{% if error %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+    <textarea name="{{name}}" rows="10" id="id_{{name}}" cols="30" {% if css_classes %}class="{{css_classes}}"{% endif %} {% if placeholder %}placeholder={{placeholder}}{% endif %}>
+    {% if value %}{{value}}{% endif %}
+    </textarea>
+    <script>
+                CKEDITOR.replace( 'id_{{name}}' );
+            </script>

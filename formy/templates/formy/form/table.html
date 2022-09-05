@@ -1,0 +1,10 @@
+<table class="table form">
+        {% for field in form %}
+        <tr><td><label for="id_{{field.name}}">{{field.get_verbose_name()}}</label></td><td>{{field.render(errors=form._errors)}} {% if field.help_text %}{{field.help_text}}{% endif %}</td></tr>
+        {% endfor %}
+        {% if include_submit %}
+            <tr>
+                <td></td><td><input type="submit" value="submit"></td>
+            </tr>
+        {% endif %}
+    </table>
