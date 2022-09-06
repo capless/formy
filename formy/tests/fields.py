@@ -2,20 +2,20 @@ import datetime
 import unittest
 from valley.exceptions import ValidationException
 
-from formy.fields import CharField, SlugField, EmailField, IntegerField, \
+from formy.fields import StringField, SlugField, EmailField, IntegerField, \
     FloatField, BooleanField, DateField, DateTimeField
 
 
 class FieldsTestCase(unittest.TestCase):
 
     def test_charfield(self):
-        field = CharField(required=True, min_length=1, max_length=20)
+        field = StringField(required=True, min_length=1, max_length=20)
         field.validate('String', 'field')
         self.assertRaises(ValidationException, field.validate, 11, 'field')
         self.assertRaises(ValidationException, field.validate, '', 'field')
         self.assertRaises(ValidationException, field.validate, '123456789012345678901234', 'field')
         self.assertRaises(ValidationException, field.validate, None, 'field')
-        field = CharField(required=False, min_length=1, max_length=20)
+        field = StringField(required=False, min_length=1, max_length=20)
         field.validate(None, 'field')
 
     def test_slugfield(self):
@@ -64,7 +64,7 @@ class FieldsTestCase(unittest.TestCase):
         field.validate(False, 'field')
         field.validate(True, 'field')
         self.assertRaises(ValidationException, field.validate, 11, 'field')
-        field = CharField(required=False, min_length=1, max_length=20)
+        field = StringField(required=False, min_length=1, max_length=20)
         field.validate(None, 'field')
 
     def test_datefield(self):

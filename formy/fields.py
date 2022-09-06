@@ -72,7 +72,7 @@ class BaseField(VBaseProperty):
         )
 
 
-class CharField(CharVariableMixin, BaseField):
+class StringField(CharVariableMixin, BaseField):
     pass
 
 
@@ -88,7 +88,7 @@ class IntegerField(IntegerVariableMixin, BaseField):
     input_type = 'number'
 
 
-class PasswordField(CharField):
+class PasswordField(StringField):
     input_type = 'password'
 
 
